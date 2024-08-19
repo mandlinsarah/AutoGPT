@@ -15,7 +15,8 @@ class ValueBlock(Block):
     is retained in the block for the next execution. You can then trigger the block by
     feeding the `input` pin with any data, and the block will produce value of `data`.
 
-    Ex:
+    Example:
+    ----------
          <constant_data>  <any_trigger>
                 ||           ||
        =====> `data`      `input`
@@ -139,3 +140,5 @@ class ObjectLookupBlock(Block):
             yield "output", getattr(obj, key)
         else:
             yield "missing", input_data.input
+
+
