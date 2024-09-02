@@ -33,7 +33,7 @@ class BlockAgentSettings(AgentSettings):
 
 
 class OutputComponent(CommandProvider):
-    def get_commands(self) -> Iterator[Command]:
+    def get_commands() -> Iterator[Command]:
         yield self.output
 
     @command(
@@ -73,7 +73,6 @@ class BlockAgent(Agent):
                 and component_name not in settings.enabled_components
             ):
                 delattr(self, attr_name)
-
 
 class AutoGPTAgentBlock(Block):
     class Input(BlockSchema):
@@ -151,6 +150,7 @@ class AutoGPTAgentBlock(Block):
                 result = asyncio.run(agent.execute(proposal))
                 return str(result)
             except Exception as e:
+                logger.error(f"Error during agent action execution: {e}")  # Detailed exception logging
                 error = e
 
         raise error or Exception("Failed to get result")
@@ -188,3 +188,4 @@ class AutoGPTAgentBlock(Block):
         result = self.get_result(agent)
 
         yield "result", result
+
