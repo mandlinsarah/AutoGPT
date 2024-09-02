@@ -49,10 +49,11 @@ class BlockInstallationBlock(Block):
         block_dir = os.path.dirname(__file__)
         file_path = f"{block_dir}/{file_name}.py"
         module_name = f"autogpt_server.blocks.{file_name}"
-        with open(file_path, "w") as f:
-            f.write(code)
 
         try:
+            with open(file_path, "w") as f:
+                f.write(code)
+
             module = __import__(module_name, fromlist=[class_name])
             block_class: Type[Block] = getattr(module, class_name)
             block = block_class()
@@ -64,3 +65,4 @@ class BlockInstallationBlock(Block):
         except Exception as e:
             os.remove(file_path)
             yield "error", f"[Code]\n{code}\n\n[Error]\n{str(e)}"
+
